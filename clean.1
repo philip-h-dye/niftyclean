@@ -1,8 +1,8 @@
 .\" clean.1 manpage
-.\" $Id: clean.1,v 1.1.1.1 2003/06/03 04:07:01 cws3 Exp $
+.\" $Id: clean.1,v 1.4 2003/07/04 06:38:43 cws3 Exp $
 .\"
 ..
-.Dd June 2, 2003
+.Dd July 4, 2003
 .Dt CLEAN 1
 .Os
 .Sh NAME
@@ -77,6 +77,7 @@ A glob expression may include regular characters as well as
 of the 
 .Xr sh 1
 man page.
+.El
 .Pp
 To make your own .cleanrc, create a file in your home directory name
 ".cleanrc" and put in it any glob expressions that you would like
@@ -100,7 +101,7 @@ core
 .*.CKP 
 *.NEW 
 .*.NEW 
-#*# 
+\\#*# 
 .emacs_[0-9]* 
 dead.letter 
 *.otl 
@@ -114,4 +115,3 @@ dead.letter
 This program was written with the express purpose of deleting (unwanted) 
 files.  Please be certain that you understand this program and that you really 
 want to use such an automatic deletion process before you begin.
-

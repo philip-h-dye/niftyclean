@@ -10,6 +10,7 @@
  * this program.
  *
  * <<Program log moved to ChangeLog>>
+ * Copyright (c) 1991- Charles Swiger
  */
 
 #include "niftyclean.h"
@@ -28,7 +29,8 @@ static void
 vers (void)
 {
     puts("NiftyClean:\n");
-    puts("Version 3.0     (2003/6/2)  by Charles Swiger <chuck@pkix.net>");
+    puts("Version 3.2     (2003/7/4)  by Charles Swiger <chuck@pkix.net>");
+    puts("Version 2.6     (1991/1/1)  by Charles Swiger <cs4w@cmu.edu>");
     puts("Version 1.0-2.5 (1989/2/20) by Jay Laefer and Mike Darweesh\n");
     puts("No Warranty Implied Or Given.  Use At Your Own Risk.");
     puts("Caveat Hacktor.  :-)  This is a Nifty Program.");
@@ -48,8 +50,8 @@ usage (void)
 }
 
 /* main() parses switch arguments, sets the proper flags, selects
-   the starting directory, and begins the traversal
-   */
+ * the starting directory, and begins the traversal
+ */
 int 
 main (int argc, char **argv)
 {
@@ -171,7 +173,7 @@ main (int argc, char **argv)
       dobatch();
     
     if (!(flag & FORCE))
-      puts("Have a Nifty Day!");
+      puts("\nHave a Nifty Day!");
 
     exit(0);
 }

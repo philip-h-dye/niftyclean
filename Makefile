@@ -6,7 +6,7 @@ PREFIX ?= /usr/local
 # Compiler flags
 CC ?= cc -pipe
 COPT = -O3
-#debugging...
+# debugging...
 CDEBUG = -g -O -Wall
 
 # DEFS = -DVICE
@@ -18,10 +18,10 @@ SRCS = match.c parse_rc.c traverse.c utilities.c main.c
 HDRS = niftyclean.h
 OBJS = match.o parse_rc.o traverse.o utilities.o main.o
 
-all:: clean
+all:: niftyclean
 
-# Ugh...this is an interesting name conflict
-clean: $(OBJS)
+# renamed target 
+niftyclean: $(OBJS)
 	$(CC) $(CFLAGS) -o clean $(OBJS) $(LIBS)
 
 
@@ -31,6 +31,11 @@ $(OBJS): $(HDRS)
 
 lint::
 	lint -b $(SRCS)
+
+clean::
+	@ echo ""
+	@ echo Use \"make distclean\" or \"make niftyclean\", depending.
+	@ echo ""
 
 distclean::
 	rm -f clean *.o *.u core

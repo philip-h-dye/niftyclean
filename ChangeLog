@@ -1,3 +1,11 @@
+2003-07-04  Charles Swiger  <chuck@pkix.net>
+	* updated Makefile to respond to "make clean" vs "make distclean"
+	* added backslash prefix to #*# entry in manpage
+	(obviously one needs to be able to comment out a comment in regexs)
+	* cleaned up a few comments, updated version numbers so the program
+	version it displays will correspond with the SF release number.
+	* added FreeBSD package files: /usr/ports/sysutils/clean
+	
 2003-06-03  Charles Swiger  <chuck@pkix.net>
 	* moved ChangeLog out of main.c into this file
 	* updated Makefile to pay attention to CFLAGS, CC, etc

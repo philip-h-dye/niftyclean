@@ -11,9 +11,9 @@ static int amatch(char *as, char *ap);
 static int umatch(char *s, char *p);
 
 /* match() takes a string and a pattern.  If the string starts
-   with a period and the pattern does not, failure (0) is
-   returned.  Otherwise, return the value that amatch() returns.
-   */
+ * with a period and the pattern does not, failure (0) is
+ * returned.  Otherwise, return the value that amatch() returns.
+ */
 int 
 match (char *s, char *p)
 {
@@ -23,9 +23,9 @@ match (char *s, char *p)
 }
 
 /* amatch() takes a string and a pattern.  It does some funky
-   globbing that I don't fully understand and returns 0 if the
-   match fails.
-   */
+ * globbing that I don't fully understand and returns 0 if the
+ * match fails.
+ */
 static int 
 amatch (char *as, char *ap)
 {
@@ -76,9 +76,9 @@ amatch (char *as, char *ap)
 }
 
 /* umatch() takes a string and a pattern.  If the pattern
-   is empty, return true (1).  Otherwise, call amatch()
-   until the string is empty or amatch() succeeds.
-   */
+ * is empty, return true (1).  Otherwise, call amatch()
+ * until the string is empty or amatch() succeeds.
+ */
 static int 
 umatch (char *s, char *p)
 {
