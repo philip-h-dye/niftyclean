@@ -1,0 +1,117 @@
+.\" clean.1 manpage
+.\" $Id: clean.1,v 1.1 2003/06/03 03:22:42 chuck Exp $
+.\"
+..
+.Dd June 2, 2003
+.Dt CLEAN 1
+.Os
+.Sh NAME
+.Nm clean
+.Nd automatically remove unwanted files
+.Sh SYNOPSIS
+.Nm
+.Op Fl bifloqVw
+.Op Fl t Ar days
+.Op Fl eE Ar glob
+.Op Fl xX Ar exclude
+.Op Ar directory ...
+.Sh DESCRIPTION
+The
+.Nm
+utility searches through the filesystem for "temporary files" which can be
+deleted safely.
+.Pp
+The options are as follows:
+.Bl -tag -width Ds
+.It Fl b
+batch mode: Wait until all subdirectories have been traversed and then
+prompts to delete the complete list of matching files (default)
+.It Fl i
+interactive mode: Prompt for deletion of each file as it is 
+found.  Also, allows entire directory trees to be skipped at the prompt.
+.It Fl f
+force mode: Run the program quietly and automatically delete all
+matching files.  This switch recommended only for expert users.
+.It Fl l
+flat mode: Only clean the current directory; do not enter subdirectories.
+.It Fl o
+object files: Add *.o and *.u to the list of regex patterns to search for.
+.It Fl q
+Quiet mode: Do not echo the directory names while traversing the filesystem.
+.It Fl V
+Version number: Print the version number of the program.
+.It Fl t Ar days
+time mode: only eliminate files that are more than 
+.Ar days
+old.
+.It Fl e Ar glob
+Use this expression without using the the .cleanrc or the 
+default list (as appropriate).  Can be used more than once.
+.It Fl E Ar glob
+Use this expression without using the the .cleanrc or the 
+default list (as appropriate).  Can be used more than once.
+.It Fl x Ar glob
+Use this expression without using the the .cleanrc or the 
+default list (as appropriate).  Can be used more than once.
+.It Fl X Ar glob
+Use this expression without using the the .cleanrc or the 
+default list (as appropriate).  Can be used more than once.
+.Pp
+If no directory is specified, then clean defaults to the current
+directory.  Only one of
+.Fl b ,
+.Fl i ,
+or
+.Fl f
+may be specified.  Also,
+.Fl e
+and
+.Fl x
+may not be used in conjunction with
+.Fl E
+and
+.Fl X .
+.Sh How globbing works, using your own .cleanrc, and the default .cleanrc:
+A glob expression may include regular characters as well as
+"wildcards".  For the definition of globbing see the appropriate part
+of the 
+.Xr sh 1
+man page.
+.Pp
+To make your own .cleanrc, create a file in your home directory name
+".cleanrc" and put in it any glob expressions that you would like
+clean to look for.  Also, you may put in the names of directories that
+you want to exclude from the search.  The names of the directories
+should be prefixed with a `!'.  A `#' at the beginning of a line
+represents a comment.
+.Pp
+The default .cleanrc would look something like this:
+.Pp
+.Bd -literal -offset ident
+# Default .cleanrc
+#
+# Expressions to match
+core 
+*~
+.*~ 
+*.BAK 
+.*.BAK 
+*.CKP 
+.*.CKP 
+*.NEW 
+.*.NEW 
+#*# 
+.emacs_[0-9]* 
+dead.letter 
+*.otl 
+.*.otl 
+*.backup 
+.*.backup 
+# End of default .cleanrc
+.Ed
+.Pp
+.Sh WARNING
+This program was written with the express purpose of deleting (unwanted) 
+files.  Please be certain that you understand this program and that you really 
+want to use such an automatic deletion process before you begin.
+

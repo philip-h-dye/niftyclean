@@ -1,0 +1,204 @@
+\begindata{text,17025376}
+\textdsversion{12}
+\template{default}
+
+
+
+\chapter{\center{clean: A program which automatically removes unwanted files}
+
+
+}
+\section{What clean is}
+
+\leftindent{
+clean is a program that clears unwanted files out of directories.
+
+}
+\section{Starting clean}
+
+\leftindent{
+}\leftindent{\bold{clean [-bifloqVw] [-t <days>] [-eE <glob>] [-xX <excl_dir>] 
+[<directory> ...]}\example{
+
+
+}The following options  are available in clean:
+
+
+\description{\bold{-b} \italic{batch mode}: Wait until all subdirectories have 
+been traversed and then prompts to delete the complete list of matching files 
+(default)
+
+\bold{-i} \italic{interactive mode}: Prompt for deletion of each file as it is 
+found.  Also, allows entire directory trees to be skipped at the prompt.
+
+\bold{-f} \italic{force mode}: Run the program quietly and automatically 
+delete all matching files.  This switch recommended only for expert users.
+
+\bold{-l} \italic{flat mode}: Only clean the current directory; do no enter 
+subdirectories.
+
+\bold{-o} \italic{object mode}: Add *.o and *.u to  list of pattern to search 
+for.
+
+\bold{-q} \italic{quiet mode}: Do not echo directory names while traversing.
+
+\bold{-V} \italic{version number}: Print version number and quit.
+
+\bold{-t <days>} \italic{time mode}: only eliminate files that are more than 
+<days> old.
+
+\bold{-e <glob>} :Use this expression without using the the .cleanrc or the 
+default list (as appropriate).  Can be used more than once.
+
+\bold{-E <glob>} :Use this expression in addition to the .cleanrc or the 
+default list.  Can be used more than once.
+
+\bold{-x <excl_dir>} :Exclude this directory name from the traversal.  This 
+overrides the .cleanrc and the default list.  Can be used more than once.
+
+\bold{-X <excl_dir>} :Exclude this directory name from the traversal.  This is 
+in addition to the .cleanrc and the default list.  Can be used more than once.
+
+
+\underline{For advanced users only:
+
+}\bold{-w} \italic{read/write}: cross mount points to AFS read/write volumes.
+
+}
+If no directory is specified, then clean defaults to the current directory.
+
+
+Only one of \bold{b}, \bold{i}, and \bold{f} may be specified.  Also, \bold{e} 
+and \bold{x} may not be used in conjunction with \bold{E} and \bold{X}.
+
+}
+\section{How globbing works, using  your own .cleanrc, and the default 
+.cleanrc:
+
+}\leftindent{
+A glob expression may include regular characters as well as "wildcards".  For 
+the definition of globbing see the appropriate part of the csh\italic{(1)} man 
+page.
+
+
+To make your own .cleanrc, create a file in your home directory name 
+".cleanrc" and put in it any glob expressions that you would like clean to 
+look for.  Also, you may put in the names of directories that you want to 
+exclude from the search.  The names of the directories should be prefixed with 
+a `!'.  A `#' at the beginning of a line represents a comment.
+
+
+The default .cleanrc would look something like this:
+
+
+\typewriter{# Default .cleanrc
+
+#
+
+# Expressions to match
+
+core
+
+*~
+
+.*~
+
+*.BAK
+
+.*.BAK
+
+*.CKP
+
+.*.CKP
+
+*.NEW
+
+.*.NEW
+
+\\#*#
+
+.emacs_[0-9]*
+
+dead.letter
+
+*.otl
+
+.*.otl
+
+*.backup
+
+.*.backup
+
+#
+
+# Directories to exclude
+
+!.MESSAGES
+
+#
+
+# End of default .cleanrc
+
+}
+	
+
+Note: To have a `#', `!', or `\\' at the beginning of your glob expression, 
+use "\\#", "\\!", or "\\\\" appropriately.  In no other case, does the `\\' 
+represent anything special.
+
+
+}\section{Advice
+
+}\leftindent{
+It is recommended that you run this program with caution.  Running this type 
+of program can result in having necessary or wanted files removed.
+
+
+A typical invocation of clean is:
+
+	\bold{clean ~}
+
+
+-This will do a batch cleaning of your whole account using the default list of 
+regular expressions and give you the opportunity to abort after showing you 
+the list of files that it has found and would delete.
+
+}
+\section{Quick Reference
+
+}\leftindent{
+\bold{clean [-bifloqVw] [-t <days>] [-eE <glob>] [-xX <excl_dir>] [<directory> 
+...]
+
+}
+\bold{-b	}batch mode
+
+\bold{-i}	interactive mode
+
+\bold{-f}	force mode
+
+\bold{-l}	flat mode
+
+\bold{-o}	object mode
+
+\bold{-q}	quiet mode
+
+\bold{-V	}version number
+
+\bold{-w}	read/write
+
+
+}\section{Warnings
+
+}\leftindent{
+This program was written with the express purpose of deleting (unwanted) 
+files.  Please be certain that you understand this program and that you really 
+want to use such an automatic deletion process before you begin.
+
+
+}\section{Author}
+
+
+\leftindent{Jay Laefer (jl57+@andrew.cmu.edu)}\chapter{
+
+}\enddata{text,17025376}
