@@ -20,14 +20,14 @@
 int flag = 0;			/* Global flag for switches */
 int skip = 0;                   /* Flag for interactive skip directory */
 time_t minimum_age;		/* Latest file creation date */
-char *RCSID = "$Id: main.c,v 1.5 2005/02/18 00:21:39 cws3 Exp $";
+char *RCSID = "$Id: main.c,v 1.6 2005/02/18 01:03:45 cws3 Exp $";
 
 /* This routine prints out the version number of the program. */
 static void 
 vers (void)
 {
     puts("NiftyClean:\n");
-    puts("Version 3.3     (2005/2/15) by Charles Swiger <chuck@pkix.net>");
+    puts("Version 3.4     (2005/2/18) by Charles Swiger <chuck@pkix.net>");
     puts("Version 1.0-2.5 (1989/2/20) by Jay Laefer and Mike Darweesh\n");
     puts("No Warranty Implied Or Given.  Use At Your Own Risk.");
     puts("Caveat Hacktor.  :-)  This is a Nifty Program.");

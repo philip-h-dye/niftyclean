@@ -1,5 +1,5 @@
 2005-02-17  Charles Swiger  <chuck@pkix.net>
-	* fix Makefile usage of "make install"
+	* fix Makefile usage of "make install", setting $INSTALL if need be
 	* move globals into main.c and prototype them only once in niftyclean.h
 	* clean up some header file includes and datatypes (ie, time_t usage)
 	* use sysexit return codes
