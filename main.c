@@ -2,39 +2,36 @@
  *
  * Written by Jay Laefer and Mike Darweesh
  *
- * (C) Copyright 1989, by Jay Laefer and Mike Darweesh
+ * (C) Copyright 1989-1991 by Jay Laefer and Mike Darweesh
  * All Rights Reserved.
  * Permission is granted to copy, modify, and use this as long
  * as this message remains intact.  This is a nifty program.
  * The authors are not responsible for any damage caused by
  * this program.
  *
+ * Copyright (c) 1991- by Charles Swiger
  * <<Program log moved to ChangeLog>>
- * Copyright (c) 1991- Charles Swiger
  */
 
 #include "niftyclean.h"
+#include <sysexits.h>
 
-#ifdef VICE
-extern void free_volume_list();
-extern int init_volume_list();
-#endif
-
+/* global variables */
 int flag = 0;			/* Global flag for switches */
-int minimum_age;		/* Latest file creation date */
+int skip = 0;                   /* Flag for interactive skip directory */
+time_t minimum_age;		/* Latest file creation date */
+char *RCSID = "$Id: main.c,v 1.5 2005/02/18 00:21:39 cws3 Exp $";
 
-/* vers() prints out the version number of the program
- */
+/* This routine prints out the version number of the program. */
 static void 
 vers (void)
 {
     puts("NiftyClean:\n");
-    puts("Version 3.2     (2003/7/4)  by Charles Swiger <chuck@pkix.net>");
-    puts("Version 2.6     (1991/1/1)  by Charles Swiger <cs4w@cmu.edu>");
+    puts("Version 3.3     (2005/2/15) by Charles Swiger <chuck@pkix.net>");
     puts("Version 1.0-2.5 (1989/2/20) by Jay Laefer and Mike Darweesh\n");
     puts("No Warranty Implied Or Given.  Use At Your Own Risk.");
     puts("Caveat Hacktor.  :-)  This is a Nifty Program.");
-    exit(0);
+    exit(EX_USAGE);
 }
 
 /* usage() prints out the proper usage of the program */
@@ -46,7 +43,7 @@ usage (void)
 #else
     puts("Usage: clean [-bifloqV] [-t <days>] [-eE <glob>] [-xX <dir>] [<dir> ...]");
 #endif
-    exit(-1);
+    exit(EX_USAGE);
 }
 
 /* main() parses switch arguments, sets the proper flags, selects
@@ -56,101 +53,99 @@ int
 main (int argc, char **argv)
 {
     char dir[MAXPATHLEN];	/* the dir name that we will start from */
-    int	c, timeout;
-    extern int optind, opterr;	/* stuff for getopt() */
-    extern char *optarg;
+    int	c;
     int onvice = 0;
-    
-    opterr = 0;
+    time_t timeout = 0;
     
     /* parse the switches */
+    opterr = 0;
     while ((c = getopt(argc, argv, ARGSTRING)) != EOF) {
 	switch (c) {
-	    /* note that BATCH, INTERACTIVE, and FORCE
-	       are mutually exclusive */
-	case 'i':
+            /* note that BATCH, INTERACTIVE, and FORCE
+               are mutually exclusive */
+          case 'i':
 	    if (flag & (BATCH | FORCE)) usage();
 	    flag |= INTERACTIVE;
 	    break;
-	case 'f':
+          case 'f':
 	    if (flag & (BATCH | INTERACTIVE)) usage();
 	    flag |= FORCE;
 	    break;
-	case 'b':
+          case 'b':
 	    if (flag & (FORCE | INTERACTIVE)) usage();
 	    flag |= BATCH;
 	    break;
-	case 'o':
+          case 'o':
 	    flag |= OBJECTS;
 	    break;
-	case 'l':
+          case 'l':
 	    flag |= FLAT;
 	    break;
-	case 'q':
+          case 'q':
 	    flag |= QUIET;
 	    break;
-	case 't':
+          case 't':
 	    if (flag & TIME) usage();
 	    timeout = parse_time(optarg);
 	    flag |= TIME;
 	    break;
-	case 'V':
+          case 'V':
 	    vers();
 	    break;
-	    /* Take care of command-line glob by making a linked list of them.
-	       Also, ADDGLOB and NOGLOB are mutually exclusive */
-	case 'E':
+            /* Take care of command-line glob by making a linked list of them.
+               Also, ADDGLOB and NOGLOB are mutually exclusive */
+          case 'E':
 	    if (flag & NOGLOB) usage();
 	    flag |= ADDGLOB;
 	    add_glob(optarg);
 	    break;
-	case 'e':
+          case 'e':
 	    if (flag & ADDGLOB) usage();
 	    flag |= NOGLOB;
 	    add_glob(optarg);
 	    break;
-	    /* Also take care of command-line directory exclusion.
-	       ADDEXCL and NOEXCL are mutually exclusive */
-	case 'X':
+            /* Also take care of command-line directory exclusion.
+               ADDEXCL and NOEXCL are mutually exclusive */
+          case 'X':
 	    if (flag & NOEXCL) usage();
 	    flag |= ADDEXCL;
 	    add_excl_dir(optarg);
 	    break;
-	case 'x':
+          case 'x':
 	    if (flag & ADDEXCL) usage();
 	    flag |= NOEXCL;
 	    add_excl_dir(optarg);
 	    break;
 #ifdef VICE			/* mount point traversals */
 /*	case 'a':                  commented out
-	    flag |= BACKUP;
-	    break;
+        flag |= BACKUP;
+        break;
 	case 'r':                  commented out
-	    flag |= READONLY;
-	    break; */
-	case 'w':
+        flag |= READONLY;
+        break; */
+          case 'w':
 	    flag |= READWRITE;
 	    break;
 #endif
-	default:
+          default:
 	    usage();
 	    break;
 	}
     }
     
     if (flag & TIME)		/* get current time, if necessary */
-      minimum_age = time(0) - timeout;
+        minimum_age = time(NULL) - timeout;
     
     /* if not interactive, batch, or force, then set to batch */
     if (!(flag & (INTERACTIVE | BATCH | FORCE)))
-      flag |= BATCH;
+        flag |= BATCH;
     
     do_rc();
     
     /* assign the approriate directory */
     if (argc == optind) {
 	if (getwd(dir) == NULL)
-	  errorh(FATAL,"Can't get working directory");
+            errorh(FATAL,"Can't get working directory");
 	
 #ifdef VICE
 	onvice = !init_volume_list(dir);
@@ -170,10 +165,10 @@ main (int argc, char **argv)
     }
     
     if (flag & BATCH)
-      dobatch();
+        dobatch();
     
     if (!(flag & FORCE))
-      puts("\nHave a Nifty Day!");
+        puts("\nHave a Nifty Day!");
 
-    exit(0);
+    exit(EX_OK);
 }

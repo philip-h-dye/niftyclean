@@ -5,12 +5,10 @@ PREFIX ?= /usr/local
 
 # Compiler flags
 CC ?= cc -pipe
+
 COPT = -O3
-# debugging...
 CDEBUG = -g -O -Wall
-
-# DEFS = -DVICE
-
+CFLAGS = $(CDEBUG)
 CFLAGS ?= $(COPT)
 
 # source files
@@ -38,8 +36,8 @@ clean::
 	@ echo ""
 
 distclean::
-	rm -f clean *.o *.u core
+	rm -f clean *.o core
 
-install: clean
+install: niftyclean
 	$(INSTALL) -s clean $(PREFIX)/bin
 	$(INSTALL) clean.1 $(PREFIX)/man/man1

@@ -5,6 +5,7 @@
  * as this message remains intact.  This is a nifty program.
  * The authors are not responsible for any damage caused by
  * this program.
+ * (C) Copyright 1991- by Charles Swiger
  */
 
 static int amatch(char *as, char *ap);
@@ -18,7 +19,7 @@ int
 match (char *s, char *p)
 {
     if (*s == '.' && *p != '.')
-      return(0);
+      return 0;
     return(amatch(s, p));
 }
 
@@ -35,7 +36,7 @@ amatch (char *as, char *ap)
     
     s = as;
     p = ap;
-    if (scc = *s++)
+    if ((scc = *s++))
       if ((scc &= 0177) == 0)
 	scc = 0200;
     switch (c = *p++) {
@@ -43,12 +44,12 @@ amatch (char *as, char *ap)
     case '[':
 	ok = 0;
 	lc = 077777;
-	while (cc = *p++) {
+	while ((cc = *p++)) {
 	    if (cc == ']') {
 		if (ok)
-		  return(amatch(s, p));
+		  return amatch(s, p);
 		else
-		  return(0);
+		  return 0;
 	    } else if (cc == '-') {
 		if (lc <= scc && scc <= (c = *p++))
 		  ok++;
@@ -56,16 +57,16 @@ amatch (char *as, char *ap)
 	      if (scc == (lc = cc))
 		ok++;
 	}
-	return(0);
+	return 0;
 	
     default:
 	if (c != scc)
-	  return(0);
+	  return 0;
 	
     case '?':
 	if (scc)
 	  return(amatch(s, p));
-	return(0);
+	return 0;
 	
     case '*':
 	return(umatch(--s, p));
@@ -83,10 +84,10 @@ static int
 umatch (char *s, char *p)
 {
     if(*p == 0)
-      return(1);
+      return 1;
     while(*s)
       if (amatch(s++,p))
-	return(1);
-    return(0);
+	return 1;
+    return 0;
 }
 

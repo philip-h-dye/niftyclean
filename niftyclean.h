@@ -8,11 +8,15 @@
  * as this message remains intact.  This is a nifty program.
  * The authors are not responsible for any damage caused by
  * this program.
+ * (C) Copyright 1991- by Charles Swiger
  */
+
 #include <stdio.h>
-#include <sys/types.h>
-#include <sys/param.h>
+#include <stdlib.h>
 #include <string.h>
+#include <sys/param.h>
+#include <time.h>
+#include <unistd.h>
 
 /*
  * prototypes
@@ -20,8 +24,13 @@
 
 /* main.c */
 extern int main(int argc, char **argv);
+extern int flag;		/* Flag containing all switches */
+extern int skip;		/* Flag for interactive skip directory */
+extern time_t minimum_age;      /* Latest file creation date */
+
 /* match.c */
 extern int match(char *s, char *p);
+
 /* parse_rc.c */
 extern void do_rc(void);
 extern void add_batch(char *path);
@@ -30,8 +39,14 @@ extern void dobatch(void);
 extern void add_glob(char *word);
 extern void add_excl_dir(char *word);
 extern int check_excl_list(char *dir);
+
 /* traverse.c */
 extern void traverse(char *d, int leaf, int onvice);
+#ifdef VICE
+extern int init_volume_list(char *);
+extern void free_volume_list(void);
+#endif
+
 /* utilities.c */
 extern void errorh(int level, char *message);
 extern int getfirstchar(FILE *stream);

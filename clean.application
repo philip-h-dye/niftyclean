@@ -37,8 +37,7 @@ delete all matching files.  This switch recommended only for expert users.
 \bold{-l} \italic{flat mode}: Only clean the current directory; do no enter 
 subdirectories.
 
-\bold{-o} \italic{object mode}: Add *.o and *.u to  list of pattern to search 
-for.
+\bold{-o} \italic{object mode}: Add *.o, *.pyc, *.pyo to the list of pattern to search for.
 
 \bold{-q} \italic{quiet mode}: Do not echo directory names while traversing.
 

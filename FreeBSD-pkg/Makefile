@@ -4,15 +4,16 @@
 #
 # $FreeBSD: $
 
-PORTNAME= 	clean
-PORTVERSION=	3.2
+PORTNAME=	clean
+PORTVERSION=	3.3
 CATEGORIES=	sysutils
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE}
-MASTER_SITE_SUBDIR= ${PORTNAME}
+MASTER_SITE_SUBDIR=	${PORTNAME}
 
 MAINTAINER=	chuck@pkix.net
-COMMENT= Automatically remove unwanted files
+COMMENT=	Automatically remove unwanted files
 
-MAN1=	clean.1
+MAN1=		clean.1
+PLIST_FILES=	bin/clean
 
 .include <bsd.port.mk>

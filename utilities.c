@@ -8,15 +8,17 @@
  * as this message remains intact.  This is a nifty program.
  * The authors are not responsible for any damage caused by
  * this program.
+ * Copyright (c) 1991- by Charles Swiger
  */
+
 #include "niftyclean.h"
 
-/* errorh() takes an error level and an error message.  It prints
-   out an appropriate error (with the provided message).  If the
-   level is anything but WARNING, the program exits.
-   */
+/* errorh() takes an error level and an error message.  It prints out an
+ * appropriate error (with the provided message).  If the level is anything
+ * but WARNING, the program exits.
+ */
 void 
-errorh (int level, char *message)
+errorh(int level, char *message)
 {
     switch (level) {
     case WARNING:
@@ -41,10 +43,10 @@ errorh (int level, char *message)
 }
 
 /* getfirstchar() takes a stream and returns the first character
-   that is neither a space nor a tab.
-   */
+ * that is neither a space nor a tab.
+ */
 int 
-getfirstchar (FILE *stream)
+getfirstchar(FILE *stream)
 {
     int c = ' ', b = ' ';
     
@@ -61,19 +63,19 @@ getfirstchar (FILE *stream)
     return(c);
 }
 
-/* parse_time() takes a string and converts it to an int.
-   The int must be less than MAXTIME.  It is converted
-   from days to seconds before being returned.
-   */
+/* parse_time() takes a string and converts it to an int.  The int must be
+ * less than MAXTIME.  It is converted from days to seconds before being
+ * returned.
+ */
 int 
-parse_time (char *word)
+parse_time(char *word)
 {
     int timeout = 0;
     char *c, errmsg[128];
 
     for (c = word; *c != '\0'; c++) {
 	if ((*c < '0') || (*c > '9'))
-	  errorh(FATAL, "Non-number in time argument.");
+            errorh(FATAL, "Non-number in time argument.");
 	timeout = 10*timeout + *c - '0';
 	if (timeout > MAXTIME) {
 	    strcpy(errmsg, "Time-out period must be no greater than ");
@@ -82,6 +84,6 @@ parse_time (char *word)
 	    errorh(FATAL, errmsg);
 	}
     }
-
+    
     return(timeout * 86400);	/* Seconds/day */
 }

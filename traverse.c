@@ -2,20 +2,17 @@
  *
  * Written by Jay Laefer
  *
- * (C) Copyright 1989, by Jay Laefer and Mike Darweesh
+ * (C) Copyright 1989, by Jay Laefer and Mike Darweesh 
  * All Rights Reserved.
  * Permission is granted to copy, modify, and use this as long
  * as this message remains intact.  This is a nifty program.
  * The authors are not responsible for any damage caused by
  * this program.
+ * Copyright (c) 1991- by Charles Swiger
  */
 #include "niftyclean.h"
-#include <sys/stat.h>
 #include <dirent.h>
-#include <sys/dirent.h>
-#include <errno.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
+#include <sys/stat.h>
 
 #ifdef VICE
 #include <afs/param.h>
@@ -24,35 +21,19 @@
 #include <afs/afsint.h>
 
 static struct voltype	*vollist = NULL; /* List of volumes crossed so far */
-#endif
-
-extern void *malloc();
-extern void errorh();
-extern int check_excl_list();
-extern int errno;
-
-extern int flag;		/* Flag containing all switches */
-extern int skip;		/* Flag for interactive skip directry */
-extern int minimum_age;		/* Latest file creation date */
-
-void traverse(), add_dir(), scan_dirs();
-
-#ifdef VICE
 void free_volume_list(), add_volume();
 int init_volume_list();
 #endif
 
+void traverse(), add_dir(), scan_dirs();
+
 /* traverse() takes a directory, opens it for reading and lstat's
-   all the files in the directory.  It calls add_dir() on each
-   subdirectory, and dofile() on each file.  It calls scan_dirs()
-   after closing the directory in preparation for recursing.
-   */
+ * all the files in the directory.  It calls add_dir() on each
+ * subdirectory, and dofile() on each file.  It calls scan_dirs()
+ * after closing the directory in preparation for recursing.
+ */
 void 
-traverse (
-    char *d,
-    int leaf,			/* nonzero if known to be leaf directory */
-    int onvice			/* nonzero iff on vice. */
-)
+traverse (char *d, int leaf, int onvice)
 {
     DIR *dirp;
     int d_len;
@@ -61,7 +42,7 @@ traverse (
     skip = 0;
     d_len = strlen(d);		/* The length of the directory name */
     if ((d_len > 1) && (d[d_len - 1] == '/'))
-      d[d_len - 1] = '\0';
+        d[d_len - 1] = '\0';
     
     if (!(flag & (FORCE | QUIET))) {
 	fputs("Entering: ", stdout);
@@ -73,7 +54,7 @@ traverse (
 	      (onvice && (flag & READWRITE)));
 
     /* open the directory for reading */
-    if (dirp = opendir(d)) {
+    if ((dirp = opendir(d))) {
 	struct dirtype *head = NULL; /* The head of the subdir list */
 	struct dirent *d_struct;
 	
@@ -107,15 +88,15 @@ traverse (
 		if ((onvice && (d_struct->d_ino & 1)) ||
 		    (dostat && ((stbuf.st_mode & S_IFMT) == S_IFDIR))) {
 		    if (!(flag & FLAT))
-		      /* it's a dir, add it to the list */
-		      add_dir(&head, file, f_len, dostat &&(stbuf.st_nlink<=2));
+                        /* it's a dir, add it to the list */
+                        add_dir(&head, file, f_len, dostat &&(stbuf.st_nlink<=2));
 
 		} else if (!(flag & TIME) || (minimum_age > stbuf.st_mtime)) {
 		    /* Pass it to dofile().
 		       We check to see if the TIME flag is set,
 		       and, if so, make sure the file is older than
 		       then minimum_age */
-		      (void)dofile(d, file);
+                    (void)dofile(d, file);
 		}
 	    }
 	}
@@ -123,24 +104,24 @@ traverse (
 	
 	/* finished reading dir, now check out subdirs */
 	if (!(flag & FLAT) && head)
-	  scan_dirs(head, d, d_len);
+            scan_dirs(head, d, d_len);
 	
     } else
-      errorh(WARNING, "Couldn't open directory");
+        errorh(WARNING, "Couldn't open directory");
 }
 
 /* add_dir() takes a double pointer to the head of the list (so it can
    be altered), the name of the subdirectory, and the length of the
    subdir.  It malloc's a structure and space for the name, then it
    adds the structure to the front of the list that begins with *headp.
-   */
+*/
 void 
 add_dir (struct dirtype **headp, char *file, int len, int leaf)
 {
     struct dirtype *dirptr;
     
     if ((dirptr = (struct dirtype *)malloc((sizeof(struct dirtype)) + len)) == NULL)
-      errorh(FATAL, "Malloc failed in add_dir()");
+        errorh(FATAL, "Malloc failed in add_dir()");
     
     /* copy subdir info into the structure */
     strcpy(dirptr->subdir, file);
@@ -159,7 +140,7 @@ add_dir (struct dirtype **headp, char *file, int len, int leaf)
    any unwanted volumes, nor do we enter the same volume
    twice.  In the non-Vice version, we just call traverse
    on each subdir.  Either way, we free() the memory as we go.
-   */
+*/
 void 
 scan_dirs (struct dirtype *head, char *d, int d_len)
 {
@@ -181,7 +162,7 @@ scan_dirs (struct dirtype *head, char *d, int d_len)
 	char dir[MAXPATHLEN];
 	
 	if ((d_len == 1) && (d[0] == '/'))
-	  strcpy(dir, "/");
+            strcpy(dir, "/");
 	else {
 	    strcpy(dir, d);
 	    strcat(dir, "/");
@@ -243,18 +224,18 @@ scan_dirs (struct dirtype *head, char *d, int d_len)
 		    && (check_volume_list(status->Vid))) {
 		    add_volume(status->Vid);
 		    traverse(dir,head->leaf, 1);
-		    }
-		}
+                }
+            }
 	} else
 #endif
-	  if (check_excl_list(head->subdir)) {
+            if (check_excl_list(head->subdir)) {
 #ifdef VICE
-	      if ((pioctl(dir, VIOCGETVOLSTAT, &blob2, 0) == 0) ||
-		  errno != EINVAL)
-		onvice = 1;
+                if ((pioctl(dir, VIOCGETVOLSTAT, &blob2, 0) == 0) ||
+                    errno != EINVAL)
+                    onvice = 1;
 #endif		
-	      traverse(dir, head->leaf, onvice);
-	  }
+                traverse(dir, head->leaf, onvice);
+            }
 	
 	head = head->next;
 	free((char *)temp);
@@ -262,7 +243,6 @@ scan_dirs (struct dirtype *head, char *d, int d_len)
 }
 
 #ifdef VICE			/* Vice-specific functions */
-
 /* init_volume_list() takes the initial directory the program
  * starts with and sets up the list of volumes traversed.
  * If the pioctl() fails with EINVAL, then we're not on vice
@@ -297,14 +277,14 @@ init_volume_list (char *dir)
 
 /* add_volume() takes a volume id, allocates space for the structure,
    and adds the structure to the list of visited volumes.
-   */
+*/
 static void 
 add_volume (long volume)
 {
     struct voltype *newvol;
     
     if ((newvol = (struct voltype *)malloc(sizeof(struct voltype))) == NULL)
-      errorh(FATAL, "Malloc() failed in add_volume()");
+        errorh(FATAL, "Malloc() failed in add_volume()");
 
     newvol->Vid = volume;	/* Get the volume ID number */
     newvol->next = vollist;
@@ -314,7 +294,7 @@ add_volume (long volume)
 
 /* check_volume_list() takes a volume id and checks to see if it's
    already been visited.  If so, a 0 is returned.  Otherwise, return 1.
-   */
+*/
 static 
 check_volume_list (long volume)
 {
@@ -322,8 +302,8 @@ check_volume_list (long volume)
     
     /* Move down the linked list that starts with vollist */
     for (temp = vollist; temp; temp = temp->next)
-      if (temp->Vid == volume)
-	return(0);		/* Found */
+        if (temp->Vid == volume)
+            return(0);		/* Found */
     
     return(1);			/* Not found */
 }
