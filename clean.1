@@ -1,5 +1,5 @@
 .\" clean.1 manpage
-.\" $Id: clean.1,v 1.1 2003/06/03 03:22:42 chuck Exp $
+.\" $Id: clean.1,v 1.1.1.1 2003/06/03 04:07:01 cws3 Exp $
 .\"
 ..
 .Dd June 2, 2003
@@ -48,14 +48,14 @@ old.
 Use this expression without using the the .cleanrc or the 
 default list (as appropriate).  Can be used more than once.
 .It Fl E Ar glob
-Use this expression without using the the .cleanrc or the 
-default list (as appropriate).  Can be used more than once.
+Use this expression in addition to the .cleanrc or the
+default list.  Can be used more than once.
 .It Fl x Ar glob
-Use this expression without using the the .cleanrc or the 
-default list (as appropriate).  Can be used more than once.
+Exclude this directory name from the traversal.  This
+overrides the .cleanrc and the default list.  Can be used more than once.
 .It Fl X Ar glob
-Use this expression without using the the .cleanrc or the 
-default list (as appropriate).  Can be used more than once.
+Exclude this directory name from the traversal.  This is
+in addition to the .cleanrc and the default list.  Can be used more than once.
 .Pp
 If no directory is specified, then clean defaults to the current
 directory.  Only one of

@@ -20,6 +20,10 @@ extern int getfirstchar();
 extern int flag;
 extern void errorh();
 
+/* Heres the default list of regex's to terminate; should move this to a 
+ * system-wide config file and not hardcode it within the binary. -CWS
+ */
+
 #define NUMDEFAULTS	16
 char *defaults[] = { 
     "core",

@@ -11,7 +11,7 @@ CDEBUG = -g -O -Wall
 
 # DEFS = -DVICE
 
-CFLAGS ?= $(CDEBUG)
+CFLAGS ?= $(COPT)
 
 # source files
 SRCS = match.c parse_rc.c traverse.c utilities.c main.c
@@ -20,6 +20,7 @@ OBJS = match.o parse_rc.o traverse.o utilities.o main.o
 
 all:: clean
 
+# Ugh...this is an interesting name conflict
 clean: $(OBJS)
 	$(CC) $(CFLAGS) -o clean $(OBJS) $(LIBS)
 
@@ -35,9 +36,5 @@ distclean::
 	rm -f clean *.o *.u core
 
 install: clean
-	- mkdir $(PREFIX)bin
 	$(INSTALL) -s clean $(PREFIX)/bin
-
-installdoc: clean.application
-	- mkdir $(PREFIX)help
-	$(INSTALL) -c -m 644 clean.application $(PREFIX)/help
+	$(INSTALL) clean.1 $(PREFIX)/man/man1

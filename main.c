@@ -11,9 +11,8 @@
  *
  * <<Program log moved to ChangeLog>>
  */
-#include "niftyclean.h"
 
-extern void errorh(), do_rc(), dobatch(), add_glob(), add_excl_dir(), traverse();
+#include "niftyclean.h"
 
 #ifdef VICE
 extern void free_volume_list();
