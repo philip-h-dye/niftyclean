@@ -7,7 +7,7 @@ CC ?= cc -pipe
 COPT = -O3
 CDEBUG = -g -O -Wall
 #CFLAGS = $(CDEBUG)
-CFLAGS ?= $(COPT)
+CFLAGS ?= $(COPT) -Wno-stringop-overflow
 
 # source files
 SRCS = match.c parse_rc.c traverse.c utilities.c main.c

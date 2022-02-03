@@ -1,3 +1,9 @@
+2020-02-03  Philip Dye <phdye@acm.org>
+	* Resolved spurious stringop-overflow warning for strcpy() into the
+	  classic scenario of a buffer tacked onto the end of a structure
+	  via byte array of length 1.  Added -Wno-stringop-overflow.
+	  GCC 11.2.0  CYGWIN_NT-10.0 3.3.3(0.341/5/3)
+
 2005-02-17  Charles Swiger  <chuck@pkix.net>
 	* fix Makefile usage of "make install", setting $INSTALL if need be
 	* move globals into main.c and prototype them only once in niftyclean.h
