@@ -144,7 +144,7 @@ main (int argc, char **argv)
     
     /* assign the approriate directory */
     if (argc == optind) {
-	if (getwd(dir) == NULL)
+	if (getcwd(dir, sizeof(dir)) == NULL)
             errorh(FATAL,"Can't get working directory");
 	
 #ifdef VICE

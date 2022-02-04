@@ -1,4 +1,7 @@
 2020-02-03  Philip Dye <phdye@acm.org>
+	* getwd() deprecated as unsafe, use getcwd() instead.
+
+2020-02-03  Philip Dye <phdye@acm.org>
 	* fgets() called with bigger size than length of destination buffer.
 	  Increased line[] size to MAXPATHLEN and ensured fgets() called with
 	  correct size.
