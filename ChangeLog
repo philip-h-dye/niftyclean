@@ -1,4 +1,9 @@
 2020-02-03  Philip Dye <phdye@acm.org>
+	* fgets() called with bigger size than length of destination buffer.
+	  Increased line[] size to MAXPATHLEN and ensured fgets() called with
+	  correct size.
+
+2020-02-03  Philip Dye <phdye@acm.org>
 	* Resolved spurious stringop-overflow warning for strcpy() into the
 	  classic scenario of a buffer tacked onto the end of a structure
 	  via byte array of length 1.  Added -Wno-stringop-overflow.

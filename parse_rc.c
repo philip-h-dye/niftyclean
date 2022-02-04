@@ -79,7 +79,7 @@ void
 do_rc(void)
 {
     FILE *fp;
-    char *home, rcfile[MAXPATHLEN], line[1024], **def_ptr;
+    char *home, rcfile[MAXPATHLEN], line[MAXPATHLEN], **def_ptr;
     int noglob, noexcl;
 
     noglob = flag & NOGLOB;
@@ -118,7 +118,7 @@ do_rc(void)
     }
     
     /* read patterns from file */
-    while (fgets(line, MAXPATHLEN, fp) != NULL) {
+    while (fgets(line, sizeof(line), fp) != NULL) {
 	int len, c;
 	
 	len = strlen(line) - 1;
